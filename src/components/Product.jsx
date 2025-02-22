@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import allBooks from "../functions";
 
 function Product() {
   const [selectedSort, setSelectedSort] = useState("Lates Addef");
@@ -9,6 +11,19 @@ function Product() {
     setSelectedSort(sortOption);
     setIsOpen(false);
   };
+
+  const [books, setBooks] = useState([]); // Đặt books là một mảng rỗng ban đầu
+
+  useEffect(() => {
+    async function fetchBooks() {
+      const data = await allBooks(); // Gọi hàm lấy dữ liệu
+      setBooks(data); // Cập nhật state với danh sách sách
+    }
+    fetchBooks();
+  }, []);
+
+  console.log(books);
+
   return (
     <div className="bg-[#F2F7FD] dark:bg-gray-900 grid grid-cols-1 w-full h-full relative z-[1]">
       <div className="bg-white dark:bg-gray-800 w-full container mx-auto mt-[50px] col-span-1 rounded-[5px] border border-gray-200 shadow-lg">
@@ -217,112 +232,21 @@ function Product() {
           </div>
         </div>
         <div className="grid grid-cols-12 h-auto justify-center gap-2 mt-5">
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto border shadow-lg  rounded-[5px] hover:scale-105 ransition-transform duration-300 ease-in-out">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px]"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto  border shadow-lg  rounded-[5px] hover:scale-105 ransition-transform duration-300 ease-in-out">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px] "
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto  border shadow-lg  rounded-[5px] hover:scale-105 ransition-transform duration-300 ease-in-out">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px]"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto  border shadow-lg  rounded-[5px] hover:scale-105 ransition-transform duration-300 ease-in-out">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px]"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
-        </div>
-        <div className="grid grid-cols-12 h-auto justify-center gap-2 mt-5 mb-5">
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto border shadow-lg  rounded-[5px  hover:scale-105 ransition-transform duration-300 ease-in-out">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px]"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto  border shadow-lg  rounded-[5px] hover:scale-105 ransition-transform duration-300 ease-in-out ">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px] "
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto  border shadow-lg  rounded-[5px] hover:scale-105 ransition-transform duration-300 ease-in-out">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px]"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
-          <div className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3 ">
-            <li className="h-auto w-auto  border shadow-lg  rounded-[5px] hover:scale-105 ransition-transform duration-300 ease-in-out">
-              <Link to="/viewbook">
-                <img
-                  className="w-[280px] object-cover h-auto  rounded-tl-[5px] rounded-tr-[5px]"
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk86g2NSvNtrKR6IKrgyl5hkUoPlHQcQpQZQ&s?format=webp"
-                  alt=""
-                />
-                <p className="mt-3 text-center">The Fire Hunter Vol. 1</p>
-                <p className="mt-1 text-center">by Rieko Hinata</p>
-              </Link>
-            </li>
-          </div>
+          {books.map((book, index) => (
+            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3">
+              <li className="h-auto w-auto border shadow-lg rounded-[5px] hover:scale-105 transition-transform duration-300 ease-in-out">
+              <Link to="/viewbook" state={{ book }}>
+                  <img
+                    className="w-[280px] object-cover h-auto rounded-tl-[5px] rounded-tr-[5px]"
+                    src={book.image}
+                    alt={book.title}
+                  />
+                  <p className="mt-3 text-center">{book.title}</p>
+                  <p className="mt-1 text-center">by {book.author}</p>
+                </Link>
+              </li>
+            </div>
+          ))}
         </div>
         <div className="flex items-center space-x-2 justify-center mt-5 mb-5">
           {/* Nút Previous */}

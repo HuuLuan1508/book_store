@@ -1,8 +1,21 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react";
+import { useNavigate } from "react";
+import allBooks from "../functions";
 
 function Viewbook() {
-  const { id } = useParams();
+  
+  const location = useLocation();
+  const navigate = useNavigate();
+  const book = location.state?.book; // Kiểm tra state trước khi dùng
+
+  // Nếu không có dữ liệu, chuyển hướng về trang chủ
+  useEffect(() => {
+    if (!book) navigate("/");
+  }, [book, navigate]);
+
+  if (!book) return null; 
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleToggleFavorite = () => {
@@ -26,7 +39,7 @@ function Viewbook() {
           {/* Phần thông tin */}
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h1 className="text-3xl font-bold dark:text-white">The Fire Hunter Vol. {id}</h1>
+              <h1 className="text-3xl font-bold dark:text-white">{book.title}</h1>
               <button 
                 onClick={handleToggleFavorite}
                 className={`transition-colors ${isFavorite ? 'text-red-500' : 'text-gray-400'} hover:text-red-600`}

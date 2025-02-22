@@ -12,7 +12,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Product />} />
-        <Route path="/viewbook" element={<Viewbook />} />
+        <Route path="/viewbook/" element={<Viewbook />} />
         <Route path="/allbooks" element={<Product />} />
         <Route path="/mybookshelf" element={<MyBookshelf />} />
         <Route path="/favorites" element={<Favorites />} />
