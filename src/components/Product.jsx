@@ -1,28 +1,33 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import allBooks from "../functions";
 
 function Product() {
   const [selectedSort, setSelectedSort] = useState("Lates Addef");
   const [isOpen, setIsOpen] = useState(false);
+  const [books, setBooks] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSortChange = (sortOption) => {
     setSelectedSort(sortOption);
     setIsOpen(false);
   };
 
-  const [books, setBooks] = useState([]); // Đặt books là một mảng rỗng ban đầu
-
   useEffect(() => {
-    async function fetchBooks() {
-      const data = await allBooks(); // Gọi hàm lấy dữ liệu
-      setBooks(data); // Cập nhật state với danh sách sách
-    }
+    const fetchBooks = async () => {
+      const data = await allBooks();
+      setBooks(data);
+    };
     fetchBooks();
   }, []);
 
-  console.log(books);
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="bg-[#F2F7FD] dark:bg-gray-900 grid grid-cols-1 w-full h-full relative z-[1]">
@@ -30,9 +35,7 @@ function Product() {
         <div className="ms-3 me-3 px-4 bg-[#FFFFFF] mt-4 rounded-[5px] flex flex-col items-center py-4 border border-gray-200 shadow-lg mb-3">
           <p className="mb-5 self-start text-left">Browse Books</p>
 
-          {/* Đảm bảo input full chiều rộng của div */}
           <div className="relative w-full z-[1]">
-            {/* Icon Tìm kiếm */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -44,14 +47,14 @@ function Product() {
               <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
             </svg>
 
-            {/* Input full width */}
             <input
               type="text"
               placeholder="Tìm kiếm..."
+              value={searchTerm}
+              onChange={handleSearchChange}
               className="pl-10 pr-10 py-3 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg dark:bg-gray-700 dark:text-white"
             />
 
-            {/* Icon Mic (bên phải input) */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -157,35 +160,6 @@ function Product() {
               >
                 <path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" />
               </svg>
-            </a>
-            <a className="flex " href="">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#EA3323"
-              >
-                <path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#EA3323"
-              >
-                <path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#EA3323"
-              >
-                <path d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z" />
-              </svg>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
@@ -232,12 +206,12 @@ function Product() {
           </div>
         </div>
         <div className="grid grid-cols-12 h-auto justify-center gap-2 mt-5">
-          {books.map((book, index) => (
+          {filteredBooks.map((book, index) => (
             <div key={index} className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3">
               <li className="h-auto w-auto border shadow-lg rounded-[5px] hover:scale-105 transition-transform duration-300 ease-in-out">
-              <Link to="/viewbook" state={{ book }}>
+                <Link to="/viewbook" state={{ book: book }}>
                   <img
-                    className="w-[280px] object-cover h-auto rounded-tl-[5px] rounded-tr-[5px]"
+                    className="w-[280px] object-cover h-[430px] rounded-tl-[5px] rounded-tr-[5px]"
                     src={book.image}
                     alt={book.title}
                   />
@@ -249,12 +223,10 @@ function Product() {
           ))}
         </div>
         <div className="flex items-center space-x-2 justify-center mt-5 mb-5">
-          {/* Nút Previous */}
           <button className="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-500 hover:bg-gray-100">
             ❮
           </button>
 
-          {/* Số trang */}
           <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow-md">
             1
           </button>
@@ -265,7 +237,6 @@ function Product() {
             3
           </button>
 
-          {/* Nút Next */}
           <button className="w-10 h-10 flex items-center justify-center border rounded-lg text-gray-500 hover:bg-gray-100">
             ❯
           </button>
@@ -274,4 +245,5 @@ function Product() {
     </div>
   );
 }
+
 export default Product;

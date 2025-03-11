@@ -5,6 +5,7 @@ import Viewbook from "./pages/viewbook";
 import MyBookshelf from "./pages/MyBookshelf";
 import Favorites from "./pages/Favorites";
 import Logout from "./pages/Logout";
+import ReadChapter from "./pages/ReadChapter";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Product />} />
-        <Route path="/viewbook/" element={<Viewbook />} />
+        <Route path="/viewbook" element={<Viewbook />} />
+        <Route path="/read/:bookId/:chapterId" element={<ReadChapter />} />
         <Route path="/allbooks" element={<Product />} />
         <Route path="/mybookshelf" element={<MyBookshelf />} />
         <Route path="/favorites" element={<Favorites />} />
