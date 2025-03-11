@@ -15,4 +15,3 @@ const allBooks = async () => {
 };
 
 export default allBooks;
-  
