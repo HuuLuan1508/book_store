@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function Login() {
     if (!email) {
       tempErrors.email = "Vui lòng nhập email";
       isValid = false;
-    } else if (!email.endsWith('@gmail.com')) {
+    } else if (!email.endsWith("@gmail.com")) {
       tempErrors.email = "Email không hợp lệ!";
       isValid = false;
     }
@@ -39,26 +39,26 @@ function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-700 mb-4">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-white mb-4">
           Đăng Nhập
         </h2>
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2">
               Email
             </label>
             <input
               type="email"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                errors.email ? 'border-red-500' : ''
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-white dark:border-gray-600 ${
+                errors.email ? "border-red-500" : ""
               }`}
               placeholder="Nhập email"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-                if (errors.email) setErrors({...errors, email: ""});
+                if (errors.email) setErrors({ ...errors, email: "" });
               }}
             />
             {errors.email && (
@@ -66,19 +66,19 @@ function Login() {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2">
               Mật khẩu
             </label>
             <input
               type="password"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                errors.password ? 'border-red-500' : ''
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-white dark:border-gray-600 ${
+                errors.password ? "border-red-500" : ""
               }`}
               placeholder="Nhập mật khẩu"
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                if (errors.password) setErrors({...errors, password: ""});
+                if (errors.password) setErrors({ ...errors, password: "" });
               }}
             />
             {errors.password && (
@@ -86,7 +86,7 @@ function Login() {
             )}
           </div>
           <div className="mb-4 text-right">
-            <a href="#" className="text-sm text-blue-500 hover:underline">
+            <a href="#" className="text-sm text-blue-500 dark:text-blue-400 hover:underline">
               Quên mật khẩu?
             </a>
           </div>
@@ -96,6 +96,13 @@ function Login() {
           >
             Đăng Nhập
           </button>
+          
+          <div className="mt-6 text-center">
+            <span className="text-gray-600 dark:text-gray-300">Chưa có tài khoản? </span>
+            <Link to="/register" className="text-blue-500 dark:text-blue-400 hover:underline">
+              Đăng ký ngay
+            </Link>
+          </div>
         </form>
       </div>
     </div>

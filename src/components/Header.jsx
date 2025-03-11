@@ -35,10 +35,10 @@ function Header() {
         <div className="flex items-center">
           <Link
             to="/"
-            className="text-xl font-semibold text-blue-600 flex items-center gap-2"
+            className="text-xl font-semibold text-blue-600 dark:text-white flex items-center gap-2"
           >
             <svg
-              className="fill-[#4E6FCF]"
+              className="fill-[#4E6FCF] dark:fill-white"
               xmlns="http://www.w3.org/2000/svg"
               height="auto"
               viewBox="0 -960 960 960"
@@ -52,7 +52,7 @@ function Header() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="lg:hidden p-2 text-gray-700 absolute right-4 top-4"
+          className="lg:hidden p-2 text-gray-700 dark:text-white absolute right-4 top-4"
           onClick={() => setIsOpen(!isOpen)}
         >
           <svg
@@ -60,7 +60,7 @@ function Header() {
             height="24px"
             viewBox="0 -960 960 960"
             width="24px"
-            fill="#5f6368"
+            fill="currentColor"
           >
             <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
           </svg>
@@ -68,14 +68,18 @@ function Header() {
 
         {/* Menu Items */}
         <div
-          className={`lg:flex gap-[50px] justify-center bg-white ${
+          className={`lg:flex gap-[50px] justify-center bg-white dark:bg-gray-800 ${
             isOpen ? "block" : "hidden"
           } fixed lg:static top-[72px] right-0 left-0 shadow-md lg:shadow-none p-4 lg:p-0 w-full lg:w-auto`}
         >
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `flex items-center gap-1 ${isActive ? activeStyle : normalStyle}`
+              `flex items-center gap-1 ${
+                isActive 
+                  ? "text-blue-600 dark:text-blue-400 font-medium" 
+                  : "text-gray-700 dark:text-white"
+              }`
             }
             end
           >
@@ -94,7 +98,9 @@ function Header() {
             to="/allbooks"
             className={({ isActive }) =>
               `flex md:mt-0 mt-3 items-center gap-1 ${
-                isActive ? activeStyle : normalStyle
+                isActive 
+                  ? "text-blue-600 dark:text-blue-400 font-medium" 
+                  : "text-gray-700 dark:text-white"
               }`
             }
           >
@@ -113,7 +119,9 @@ function Header() {
             to="/mybookshelf"
             className={({ isActive }) =>
               `flex md:mt-0 mt-3 items-center gap-1 ${
-                isActive ? activeStyle : normalStyle
+                isActive 
+                  ? "text-blue-600 dark:text-blue-400 font-medium" 
+                  : "text-gray-700 dark:text-white"
               }`
             }
           >
@@ -132,7 +140,9 @@ function Header() {
             to="/favorites"
             className={({ isActive }) =>
               `flex md:mt-0 mt-3 items-center gap-1 ${
-                isActive ? activeStyle : normalStyle
+                isActive 
+                  ? "text-blue-600 dark:text-blue-400 font-medium" 
+                  : "text-gray-700 dark:text-white"
               }`
             }
           >
@@ -153,7 +163,7 @@ function Header() {
         <div className="lg:flex gap-5 items-center hidden">
           <button
             onClick={toggleTheme}
-            className="border rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="border rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 dark:border-gray-600"
             aria-label="Toggle theme"
           >
             {isDark ? (
@@ -181,14 +191,14 @@ function Header() {
           </button>
           <Link
             to="/login"
-            className={`flex gap-2 items-center ${normalStyle} hover:text-blue-600`}
+            className="flex gap-2 items-center text-gray-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
               viewBox="0 -960 960 960"
               width="24px"
-              fill="#000000"
+              fill="currentColor"
             >
               <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
             </svg>
