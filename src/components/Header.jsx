@@ -76,8 +76,8 @@ function Header() {
             to="/"
             className={({ isActive }) =>
               `flex items-center gap-1 ${
-                isActive 
-                  ? "text-blue-600 dark:text-blue-400 font-medium" 
+                isActive
+                  ? "text-blue-600 dark:text-blue-400 font-medium"
                   : "text-gray-700 dark:text-white"
               }`
             }
@@ -94,7 +94,7 @@ function Header() {
             </svg>
             Home
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/allbooks"
             className={({ isActive }) =>
               `flex md:mt-0 mt-3 items-center gap-1 ${
@@ -114,13 +114,13 @@ function Header() {
               <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z" />
             </svg>
             AllBook
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to="/mybookshelf"
             className={({ isActive }) =>
               `flex md:mt-0 mt-3 items-center gap-1 ${
-                isActive 
-                  ? "text-blue-600 dark:text-blue-400 font-medium" 
+                isActive
+                  ? "text-blue-600 dark:text-blue-400 font-medium"
                   : "text-gray-700 dark:text-white"
               }`
             }
@@ -132,16 +132,16 @@ function Header() {
               width="24px"
               fill="currentColor"
             >
-              <path d="M300-80q-58 0-99-41t-41-99v-520q0-58 41-99t99-41h500v600q-25 0-42.5 17.5T740-220q0 25 17.5 42.5T800-160v80H300Zm-60-267q14-7 29-10t31-3h20v-440h-20q-25 0-42.5 17.5T240-740v393Zm160-13h320v-440H400v440Zm-160 13v-453 453Zm60 187h373q-6-14-9.5-28.5T660-220q0-16 3-31t10-29H300q-26 0-43 17.5T240-220q0 26 17 43t43 17Z" />
+              <path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
             </svg>
-            MyBookshelf
+            History
           </NavLink>
           <NavLink
             to="/favorites"
             className={({ isActive }) =>
               `flex md:mt-0 mt-3 items-center gap-1 ${
-                isActive 
-                  ? "text-blue-600 dark:text-blue-400 font-medium" 
+                isActive
+                  ? "text-blue-600 dark:text-blue-400 font-medium"
                   : "text-gray-700 dark:text-white"
               }`
             }
