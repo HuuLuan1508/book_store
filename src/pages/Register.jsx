@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { registerNewAccount } from "../services/UserAPI";
 
 function Register() {
   const navigate = useNavigate();
@@ -17,49 +18,41 @@ function Register() {
   });
 
   const validateForm = () => {
-    let tempErrors = {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      username: ""
-    };
-    let isValid = true;
 
-    // Kiểm tra username
+    var validateUsername = "";
+    var validateEmail = "";
+    var validatePassword = "";
+    var validateConfirm = "";
+
     if (!formData.username.trim()) {
-      tempErrors.username = "Vui lòng nhập tên người dùng";
-      isValid = false;
+      validateUsername = "Vui lòng nhập tên người dùng!";
     }
 
-    // Kiểm tra email
     if (!formData.email) {
-      tempErrors.email = "Vui lòng nhập email";
-      isValid = false;
+      validateEmail = "Vui lòng nhập email";
     } else if (!formData.email.endsWith("@gmail.com")) {
-      tempErrors.email = "Email không hợp lệ!";
-      isValid = false;
+      validateEmail = "Email không hợp lệ!";
     }
 
-    // Kiểm tra password
     if (!formData.password) {
-      tempErrors.password = "Vui lòng nhập mật khẩu";
-      isValid = false;
+      validatePassword = "Vui lòng nhập mật khẩu";
     } else if (formData.password.length < 6) {
-      tempErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
-      isValid = false;
+      validatePassword = "Mật khẩu phải có ít nhất 6 ký tự";
     }
 
-    // Kiểm tra confirm password
     if (!formData.confirmPassword) {
-      tempErrors.confirmPassword = "Vui lòng xác nhận mật khẩu";
-      isValid = false;
+      validateConfirm = "Vui lòng xác nhận mật khẩu";
     } else if (formData.confirmPassword !== formData.password) {
-      tempErrors.confirmPassword = "Mật khẩu không khớp";
-      isValid = false;
+      validateConfirm = "Mật khẩu không khớp";
     }
 
-    setErrors(tempErrors);
-    return isValid;
+    setErrors({username: validateUsername, email: validateEmail, password: validatePassword, confirmPassword: validateConfirm});
+
+    if (!validateUsername && !validateEmail && !validatePassword && !validateConfirm){
+      return true;
+    }
+
+    return false;
   };
 
   const handleChange = (e) => {
@@ -80,8 +73,13 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Xử lý đăng ký ở đây
-      console.log("Form is valid", formData);
+      try{
+        const newUser = registerNewAccount(formData.name, formData.email, formData.password);
+        // Xử lí tiếp khi đăng kí thành công
+      }catch(e){
+        // Xử lí tiếp khi đăng kí thất bại
+        console.log(e);
+      }
     }
   };
 

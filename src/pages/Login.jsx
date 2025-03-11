@@ -53,6 +53,8 @@ function Login() {
 
         alert("Đăng nhập thành công!");
         navigate("/");
+
+        // Xử lí khi đăng nhập thành công
       } catch (error) {
         console.error(error);
       }

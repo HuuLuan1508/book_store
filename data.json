@@ -1,7 +1,7 @@
 {
   "books": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Doraemon",
       "author": "Fujiko Fujio",
       "description": "Doraemon - chú mèo máy đến từ thế kỷ 22 - đã dùng cỗ máy thời gian trở về thế kỷ 20 để làm bạn với Nobita, một cậu bé hậu đậu, vụng về nhưng giàu lòng nhân hậu, luôn gặp xui xẻo và bị bạn bè bắt nạt. Nhờ chiếc túi bốn chiều trước bụng chứa đủ loại bảo bối thần kỳ, Doraemon đã cứu nguy cho Nobita mỗi khi cậu bạn này gặp phải rắc rối tạo nên những tình huống dở khóc dở cười.",
@@ -108,7 +108,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Conan",
       "author": "Fujiko Fujio",
       "description": "Doraemon - chú mèo máy đến từ thế kỷ 22 - đã dùng cỗ máy thời gian trở về thế kỷ 20 để làm bạn với Nobita, một cậu bé hậu đậu, vụng về nhưng giàu lòng nhân hậu, luôn gặp xui xẻo và bị bạn bè bắt nạt. Nhờ chiếc túi bốn chiều trước bụng chứa đủ loại bảo bối thần kỳ, Doraemon đã cứu nguy cho Nobita mỗi khi cậu bạn này gặp phải rắc rối tạo nên những tình huống dở khóc dở cười.",
@@ -215,7 +215,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Doraemon",
       "author": "Fujiko Fujio",
       "description": "Doraemon - chú mèo máy đến từ thế kỷ 22 - đã dùng cỗ máy thời gian trở về thế kỷ 20 để làm bạn với Nobita, một cậu bé hậu đậu, vụng về nhưng giàu lòng nhân hậu, luôn gặp xui xẻo và bị bạn bè bắt nạt. Nhờ chiếc túi bốn chiều trước bụng chứa đủ loại bảo bối thần kỳ, Doraemon đã cứu nguy cho Nobita mỗi khi cậu bạn này gặp phải rắc rối tạo nên những tình huống dở khóc dở cười.",
@@ -322,7 +322,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Doraemon",
       "author": "Fujiko Fujio",
       "description": "Doraemon - chú mèo máy đến từ thế kỷ 22 - đã dùng cỗ máy thời gian trở về thế kỷ 20 để làm bạn với Nobita, một cậu bé hậu đậu, vụng về nhưng giàu lòng nhân hậu, luôn gặp xui xẻo và bị bạn bè bắt nạt. Nhờ chiếc túi bốn chiều trước bụng chứa đủ loại bảo bối thần kỳ, Doraemon đã cứu nguy cho Nobita mỗi khi cậu bạn này gặp phải rắc rối tạo nên những tình huống dở khóc dở cười.",
@@ -429,7 +429,11 @@
       ]
     }
   ],
-  "users":[
-    
+  "users": [
+    {
+      "id": 1741692864658,
+      "email": "loc24062003@gmail.com",
+      "password": "111111"
+    }
   ]
 }
