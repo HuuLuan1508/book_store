@@ -16,6 +16,7 @@ function Register() {
     confirmPassword: "",
     username: ""
   });
+  const [message, setMessage] = useState({ type: "", content: "" });
 
   const validateForm = () => {
 
@@ -70,14 +71,24 @@ function Register() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      try{
-        const newUser = registerNewAccount(formData.name, formData.email, formData.password);
-        // Xử lí tiếp khi đăng kí thành công
-      }catch(e){
-        // Xử lí tiếp khi đăng kí thất bại
+      try {
+        const newUser = await registerNewAccount(formData.username, formData.email, formData.password);
+        setMessage({
+          type: "success",
+          content: "Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập..."
+        });
+        // Đợi 2 giây trước khi chuyển hướng
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } catch (e) {
+        setMessage({
+          type: "error",
+          content: "Đăng ký thất bại! Vui lòng thử lại sau."
+        });
         console.log(e);
       }
     }
@@ -86,6 +97,17 @@ function Register() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+        {message.content && (
+          <div
+            className={`mb-4 p-4 rounded ${
+              message.type === "success"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+            }`}
+          >
+            {message.content}
+          </div>
+        )}
         <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-white mb-4">
           Đăng Ký Tài Khoản
         </h2>

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   // Hàm xử lý chuyển đổi theme
   const toggleTheme = () => {
@@ -27,6 +29,11 @@ function Header() {
   // Style cho menu item khi active
   const activeStyle = "text-blue-600 font-medium";
   const normalStyle = "text-gray-700";
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
 
   return (
     <nav className="shadow-md p-4 sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-500 shadow-gray-500 z-[9999]">
@@ -189,21 +196,39 @@ function Header() {
               </svg>
             )}
           </button>
-          <Link
-            to="/login"
-            className="flex gap-2 items-center text-gray-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="currentColor"
+          {user ? (
+            <Link
+              onClick={handleLogout}
+              className="flex gap-2 items-center text-gray-700 dark:text-white hover:text-red-600 dark:hover:text-red-400"
             >
-              <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
-            </svg>
-            Login
-          </Link>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/>
+              </svg>
+              Logout
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="flex gap-2 items-center text-gray-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M480-120v-80h280v-560H480v-80h280q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H480Zm-80-160-55-58 102-102H120v-80h327L345-622l55-58 200 200-200 200Z" />
+              </svg>
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </nav>

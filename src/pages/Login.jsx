@@ -46,10 +46,18 @@ function Login() {
           return;
         }
 
-        if (users.password !== password) {
-          setErrors({ email: "", password: "Mật khẩu không chính xác!" });
-          return;
+        if (users.length == 1) {
+          if (users[0].password !== password) {
+            setErrors({ email: "", password: "Mật khẩu không chính xác!" });
+            return;
+          }
         }
+
+         // Lưu thông tin user vào localStorage
+         localStorage.setItem('user', JSON.stringify({
+          email: users[0].email,
+          username: users[0].username
+        }));
 
         alert("Đăng nhập thành công!");
         navigate("/");
@@ -109,7 +117,10 @@ function Login() {
             )}
           </div>
           <div className="mb-4 text-right">
-            <a href="#" className="text-sm text-blue-500 dark:text-blue-400 hover:underline">
+            <a
+              href="#"
+              className="text-sm text-blue-500 dark:text-blue-400 hover:underline"
+            >
               Quên mật khẩu?
             </a>
           </div>
@@ -120,7 +131,9 @@ function Login() {
             Đăng Nhập
           </button>
           <div className="mt-4 text-center">
-            <span className="text-gray-600 dark:text-gray-300">Chưa có tài khoản? </span>
+            <span className="text-gray-600 dark:text-gray-300">
+              Chưa có tài khoản?{" "}
+            </span>
             <a
               href="/register"
               className="text-blue-500 dark:text-blue-400 hover:underline font-medium"
