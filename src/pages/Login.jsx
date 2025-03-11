@@ -5,10 +5,37 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ email: "", password: "" });
+
+  const validateForm = () => {
+    let tempErrors = { email: "", password: "" };
+    let isValid = true;
+
+    // Kiểm tra email
+    if (!email) {
+      tempErrors.email = "Vui lòng nhập email";
+      isValid = false;
+    } else if (!email.endsWith('@gmail.com')) {
+      tempErrors.email = "Email không hợp lệ!";
+      isValid = false;
+    }
+
+    // Kiểm tra password
+    if (!password) {
+      tempErrors.password = "Vui lòng nhập mật khẩu";
+      isValid = false;
+    } else if (password.length < 6) {
+      tempErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+      isValid = false;
+    }
+
+    setErrors(tempErrors);
+    return isValid;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Đăng nhập với:", { email, password });
+    validateForm();
   };
 
   return (
@@ -17,19 +44,26 @@ function Login() {
         <h2 className="text-2xl font-bold text-center text-gray-700 mb-4">
           Đăng Nhập
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Email
             </label>
             <input
               type="email"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                errors.email ? 'border-red-500' : ''
+              }`}
               placeholder="Nhập email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (errors.email) setErrors({...errors, email: ""});
+              }}
             />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+            )}
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -37,12 +71,19 @@ function Login() {
             </label>
             <input
               type="password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                errors.password ? 'border-red-500' : ''
+              }`}
               placeholder="Nhập mật khẩu"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (errors.password) setErrors({...errors, password: ""});
+              }}
             />
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+            )}
           </div>
           <div className="mb-4 text-right">
             <a href="#" className="text-sm text-blue-500 hover:underline">
