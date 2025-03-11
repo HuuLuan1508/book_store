@@ -5,33 +5,44 @@ import allBooks from "../functions";
 function ReadChapter() {
   const { bookId, chapterId } = useParams();
   const navigate = useNavigate();
-  const [chapter, setChapter] = useState(null);
+  const [books, setBooks] = useState(null);
   const [book, setBook] = useState(null);
+  const [chapter, setChapter] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const books = await allBooks();
-      const currentBook = books.find((b) => b.id === parseInt(bookId));
+    const fetchBooks = async () => {
+      const data = await allBooks();
+      setBooks(data);
+    };
+    fetchBooks();
+  }, []);
 
-      if (currentBook && currentBook.chapters) {
-        setBook(currentBook);
-        const chapterIndex = parseInt(chapterId) - 1;
-        const currentChapter = currentBook.chapters[chapterIndex];
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [chapterId]); 
 
-        if (currentChapter) {
-          setChapter(currentChapter);
-        } else {
-          console.error("Chapter not found");
-          navigate("/");
-        }
+  useEffect(() => {
+    if (!books) return;
+    setChapter(null);
+
+    const currentBook = books.find((b) => parseInt(b.id) === parseInt(bookId));
+
+    if (currentBook && currentBook.chapters) {
+      setBook(currentBook);
+      const chapterIndex = parseInt(chapterId) - 1;
+      const currentChapter = currentBook.chapters[chapterIndex];
+
+      if (currentChapter) {
+        setChapter(currentChapter);
       } else {
-        console.error("Book or chapters not found");
+        console.error("Chapter not found");
         navigate("/");
       }
-    };
-
-    fetchData();
-  }, [bookId, chapterId, navigate]);
+    } else {
+      console.error("Book or chapters not found");
+      navigate("/");
+    }
+  }, [bookId, chapterId, books, navigate]);
 
   if (!chapter || !book) {
     return (
@@ -50,7 +61,7 @@ function ReadChapter() {
           </h2>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
+        <div key={chapterId} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4">
           <div className="flex flex-col items-center gap-4">
             {chapter.contents &&
               chapter.contents.map((imageUrl, index) => (
