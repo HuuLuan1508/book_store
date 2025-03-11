@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getUsersByEmail } from "../services/UserAPI";
 
 function Login() {
   const navigate = useNavigate();
@@ -8,34 +9,54 @@ function Login() {
   const [errors, setErrors] = useState({ email: "", password: "" });
 
   const validateForm = () => {
-    let tempErrors = { email: "", password: "" };
-    let isValid = true;
+    var validateEmail = "";
+    var validatePassword = "";
 
-    // Kiểm tra email
     if (!email) {
-      tempErrors.email = "Vui lòng nhập email";
-      isValid = false;
+      validateEmail = "Vui lòng nhập email!";
     } else if (!email.endsWith("@gmail.com")) {
-      tempErrors.email = "Email không hợp lệ!";
-      isValid = false;
+      validateEmail = "Email không hợp lệ!";
     }
 
-    // Kiểm tra password
     if (!password) {
-      tempErrors.password = "Vui lòng nhập mật khẩu";
-      isValid = false;
+      validatePassword = "Vui lòng nhập mật khẩu!";
     } else if (password.length < 6) {
-      tempErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
-      isValid = false;
+      validatePassword = "Mật khẩu phải từ 6 kí tự trở lên!";
     }
 
-    setErrors(tempErrors);
-    return isValid;
+    setErrors({ email: validateEmail, password: validatePassword });
+
+    if (!validateEmail && !validatePassword) {
+      return true;
+    }
+
+    return false;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    validateForm();
+    const isValid = validateForm();
+
+    if (isValid) {
+      try {
+        const users = await getUsersByEmail(email);
+
+        if (users.length == 0) {
+          setErrors({ email: "Tài khoản không tồn tại!", password: "" });
+          return;
+        }
+
+        if (users.password !== password) {
+          setErrors({ email: "", password: "Mật khẩu không chính xác!" });
+          return;
+        }
+
+        alert("Đăng nhập thành công!");
+        navigate("/");
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -96,12 +117,14 @@ function Login() {
           >
             Đăng Nhập
           </button>
-          
-          <div className="mt-6 text-center">
+          <div className="mt-4 text-center">
             <span className="text-gray-600 dark:text-gray-300">Chưa có tài khoản? </span>
-            <Link to="/register" className="text-blue-500 dark:text-blue-400 hover:underline">
+            <a
+              href="/register"
+              className="text-blue-500 dark:text-blue-400 hover:underline font-medium"
+            >
               Đăng ký ngay
-            </Link>
+            </a>
           </div>
         </form>
       </div>
