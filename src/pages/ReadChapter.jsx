@@ -11,7 +11,9 @@ function ReadChapter() {
   useEffect(() => {
     const fetchData = async () => {
       const books = await allBooks();
-      const currentBook = books.find((b) => b.id === parseInt(bookId));
+      const currentBook = books.find(
+        (b) => parseInt(b.id) === parseInt(bookId)
+      );
 
       if (currentBook && currentBook.chapters) {
         setBook(currentBook);

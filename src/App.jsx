@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Product from "./components/Product";
-import Viewbook from "./pages/viewbook";
+import Viewbook from "./pages/Viewbook";
 import MyBookshelf from "./pages/MyBookshelf";
 import Favorites from "./pages/Favorites";
 import Logout from "./pages/Logout";
 import ReadChapter from "./pages/ReadChapter";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/mybookshelf" element={<MyBookshelf />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/login" element={<Login />} />
+
       </Routes>
     </div>
   );

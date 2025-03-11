@@ -10,17 +10,17 @@ function Header() {
     const newTheme = !isDark;
     setIsDark(newTheme);
     // Thêm/xóa class dark vào thẻ html
-    document.documentElement.classList.toggle('dark');
+    document.documentElement.classList.toggle("dark");
     // Lưu preference vào localStorage
-    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+    localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
 
   // Khởi tạo theme từ localStorage khi component mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
       setIsDark(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
@@ -33,7 +33,8 @@ function Header() {
       <div className="relative container mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/"
+          <Link
+            to="/"
             className="text-xl font-semibold text-blue-600 flex items-center gap-2"
           >
             <svg
@@ -71,9 +72,9 @@ function Header() {
             isOpen ? "block" : "hidden"
           } fixed lg:static top-[72px] right-0 left-0 shadow-md lg:shadow-none p-4 lg:p-0 w-full lg:w-auto`}
         >
-          <NavLink 
-            to="/" 
-            className={({ isActive }) => 
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
               `flex items-center gap-1 ${isActive ? activeStyle : normalStyle}`
             }
             end
@@ -89,10 +90,12 @@ function Header() {
             </svg>
             Home
           </NavLink>
-          <NavLink 
-            to="/allbooks" 
-            className={({ isActive }) => 
-              `flex md:mt-0 mt-3 items-center gap-1 ${isActive ? activeStyle : normalStyle}`
+          <NavLink
+            to="/allbooks"
+            className={({ isActive }) =>
+              `flex md:mt-0 mt-3 items-center gap-1 ${
+                isActive ? activeStyle : normalStyle
+              }`
             }
           >
             <svg
@@ -106,10 +109,12 @@ function Header() {
             </svg>
             AllBook
           </NavLink>
-          <NavLink 
-            to="/mybookshelf" 
-            className={({ isActive }) => 
-              `flex md:mt-0 mt-3 items-center gap-1 ${isActive ? activeStyle : normalStyle}`
+          <NavLink
+            to="/mybookshelf"
+            className={({ isActive }) =>
+              `flex md:mt-0 mt-3 items-center gap-1 ${
+                isActive ? activeStyle : normalStyle
+              }`
             }
           >
             <svg
@@ -123,10 +128,12 @@ function Header() {
             </svg>
             MyBookshelf
           </NavLink>
-          <NavLink 
-            to="/favorites" 
-            className={({ isActive }) => 
-              `flex md:mt-0 mt-3 items-center gap-1 ${isActive ? activeStyle : normalStyle}`
+          <NavLink
+            to="/favorites"
+            className={({ isActive }) =>
+              `flex md:mt-0 mt-3 items-center gap-1 ${
+                isActive ? activeStyle : normalStyle
+              }`
             }
           >
             <svg
@@ -144,7 +151,7 @@ function Header() {
 
         {/* Action Buttons */}
         <div className="lg:flex gap-5 items-center hidden">
-          <button 
+          <button
             onClick={toggleTheme}
             className="border rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
             aria-label="Toggle theme"
@@ -172,25 +179,21 @@ function Header() {
               </svg>
             )}
           </button>
-          <NavLink 
-            to="/logout" 
-            className={({ isActive }) => 
-              `flex gap-2 items-center ${isActive ? activeStyle : normalStyle}`
-            }
+          <Link
+            to="/login"
+            className={`flex gap-2 items-center ${normalStyle} hover:text-blue-600`}
           >
-            <button>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="currentColor"
-              >
-                <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
-              </svg>
-            </button>
-            Logout
-          </NavLink>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="currentColor"
+            >
+              <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z" />
+            </svg>
+            Login
+          </Link>
         </div>
       </div>
     </nav>
