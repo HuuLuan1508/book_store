@@ -53,7 +53,6 @@ function Login() {
           }
         }
 
-         // Lưu thông tin user vào localStorage
          localStorage.setItem('user', JSON.stringify({
           email: users[0].email,
           username: users[0].username
@@ -62,7 +61,6 @@ function Login() {
         alert("Đăng nhập thành công!");
         navigate("/");
 
-        // Xử lí khi đăng nhập thành công
       } catch (error) {
         console.error(error);
       }

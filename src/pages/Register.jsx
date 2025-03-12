@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { registerNewAccount } from "../services/UserAPI";
+import { registerNewAccount, getUsersByEmail } from "../services/UserAPI";
 
 function Register() {
   const navigate = useNavigate();
@@ -8,18 +8,17 @@ function Register() {
     email: "",
     password: "",
     confirmPassword: "",
-    username: ""
+    username: "",
   });
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    username: ""
+    username: "",
   });
   const [message, setMessage] = useState({ type: "", content: "" });
 
   const validateForm = () => {
-
     var validateUsername = "";
     var validateEmail = "";
     var validatePassword = "";
@@ -47,9 +46,19 @@ function Register() {
       validateConfirm = "Mật khẩu không khớp";
     }
 
-    setErrors({username: validateUsername, email: validateEmail, password: validatePassword, confirmPassword: validateConfirm});
+    setErrors({
+      username: validateUsername,
+      email: validateEmail,
+      password: validatePassword,
+      confirmPassword: validateConfirm,
+    });
 
-    if (!validateUsername && !validateEmail && !validatePassword && !validateConfirm){
+    if (
+      !validateUsername &&
+      !validateEmail &&
+      !validatePassword &&
+      !validateConfirm
+    ) {
       return true;
     }
 
@@ -60,13 +69,13 @@ function Register() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
-    // Clear error when user types
+
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: ""
+        [name]: "",
       });
     }
   };
@@ -74,11 +83,24 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
+
+      const users = await getUsersByEmail(formData.email);
+
+      if (users.length > 0) {
+        setErrors({username: "", email: "Email đã đăng kí trước đó!", password: "", confirmPassword: "" });
+        return;
+      }
+
       try {
-        const newUser = await registerNewAccount(formData.username, formData.email, formData.password);
+        await registerNewAccount(
+          formData.username,
+          formData.email,
+          formData.password
+        );
         setMessage({
           type: "success",
-          content: "Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập..."
+          content:
+            "Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập...",
         });
         // Đợi 2 giây trước khi chuyển hướng
         setTimeout(() => {
@@ -87,7 +109,7 @@ function Register() {
       } catch (e) {
         setMessage({
           type: "error",
-          content: "Đăng ký thất bại! Vui lòng thử lại sau."
+          content: "Đăng ký thất bại! Vui lòng thử lại sau.",
         });
         console.log(e);
       }
@@ -188,7 +210,9 @@ function Register() {
               onChange={handleChange}
             />
             {errors.confirmPassword && (
-              <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>
+              <p className="text-red-500 text-xs mt-1">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
@@ -202,8 +226,13 @@ function Register() {
 
           {/* Login link */}
           <div className="mt-6 text-center">
-            <span className="text-gray-600 dark:text-gray-300">Đã có tài khoản? </span>
-            <Link to="/login" className="text-blue-500 dark:text-blue-400 hover:underline">
+            <span className="text-gray-600 dark:text-gray-300">
+              Đã có tài khoản?{" "}
+            </span>
+            <Link
+              to="/login"
+              className="text-blue-500 dark:text-blue-400 hover:underline"
+            >
               Đăng nhập ngay
             </Link>
           </div>
@@ -213,4 +242,4 @@ function Register() {
   );
 }
 
-export default Register; 
+export default Register;

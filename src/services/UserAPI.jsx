@@ -1,9 +1,9 @@
-const getUserByEmailAPI = `http://localhost:3000/users?`;
+const getUserByEmailAPI = `http://localhost:3000/users?email=`;
 const usersAPI = `http://localhost:3000/users`;
 
 export const getUsersByEmail = async (email) => {
   try {
-    const response = await fetch(`${getUserByEmailAPI}email=${email}`);
+    const response = await fetch(`${getUserByEmailAPI}${email}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
