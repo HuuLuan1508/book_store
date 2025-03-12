@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
@@ -25,7 +26,10 @@ function Favorites() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {favorites.map((book) => (
-              <div className="border rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div
+                className="border rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                onClick={() => navigate("/viewbook", { state: { book } })}
+              >
                 <img
                   className="w-[280px] h-[420px] object-cover rounded-t-lg"
                   src={book.image}

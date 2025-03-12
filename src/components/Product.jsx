@@ -24,7 +24,6 @@ function Product() {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
   const filteredBooks = books.filter((book) =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -211,7 +210,7 @@ function Product() {
               )}
             </div>
           </div>
-        </div>
+        </div>{" "}
         <div className="grid grid-cols-12 h-auto justify-center gap-2 mt-5">
           {filteredBooks.map((book, index) => (
             <div

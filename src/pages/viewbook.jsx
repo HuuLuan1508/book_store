@@ -35,7 +35,7 @@ function Viewbook() {
   };
 
   const handleAddToLibrary = () => {
-    // Thêm sách vào MyBookshelf
+    // Thêm sách vào History
     const myBooks = JSON.parse(localStorage.getItem("myBooks")) || [];
     if (!myBooks.some((b) => b.id === book.id)) {
       myBooks.push(book);
