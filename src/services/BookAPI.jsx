@@ -1,6 +1,9 @@
-const getAllBooksAPI = 'http://localhost:3000/books'
+import {usersAPI} from "../services/UserAPI";
 
-const allBooks = async () => {
+const getAllBooksAPI = 'http://localhost:3000/books'
+const updateRedChapterAPI = `${usersAPI}/`;
+
+export const allBooks = async () => {
   try {
     const response = await fetch(getAllBooksAPI)
     if (!response.ok) {
@@ -14,4 +17,19 @@ const allBooks = async () => {
   }
 };
 
-export default allBooks;
+export const updateRedChapters = async (userId, redChapters) => {
+  try {
+    const response = await fetch(`${updateRedChapterAPI}${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({red: redChapters}),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};

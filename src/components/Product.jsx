@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import allBooks from "../services/BookAPI";
+import {allBooks} from "../services/BookAPI";
 
 function Product() {
   const [selectedSort, setSelectedSort] = useState("Lates Addef");

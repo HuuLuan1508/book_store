@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Product from "./components/Product";
-import Viewbook from "./pages/Viewbook";
+import ViewBook from "./pages/ViewBook";
 import History from "./pages/History";
 import Favorites from "./pages/Favorites";
 import Logout from "./pages/Logout";
@@ -15,7 +15,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Product />} />
-        <Route path="/viewbook" element={<Viewbook />} />
+        <Route path="/viewbook" element={<ViewBook />} />
         <Route path="/read/:bookId/:chapterId" element={<ReadChapter />} />
         <Route path="/allbooks" element={<Product />} />
         <Route path="/mybookshelf" element={<History />} />

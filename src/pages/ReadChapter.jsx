@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import allBooks from "../services/BookAPI";
+import {allBooks} from "../services/BookAPI";
 
 function ReadChapter() {
   const { bookId, chapterId } = useParams();
