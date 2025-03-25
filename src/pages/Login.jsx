@@ -54,8 +54,10 @@ function Login() {
         }
 
          localStorage.setItem('user', JSON.stringify({
+          id: users[0].id,
           email: users[0].email,
-          username: users[0].username
+          name: users[0].name,
+          red: users[0].red
         }));
 
         alert("Đăng nhập thành công!");

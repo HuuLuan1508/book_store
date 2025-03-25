@@ -102,7 +102,6 @@ function Register() {
           content:
             "Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập...",
         });
-        // Đợi 2 giây trước khi chuyển hướng
         setTimeout(() => {
           navigate("/login");
         }, 2000);

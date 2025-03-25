@@ -1,5 +1,5 @@
-const getUserByEmailAPI = `http://localhost:3000/users?email=`;
 const usersAPI = `http://localhost:3000/users`;
+const getUserByEmailAPI = `${usersAPI}?email=`;
 
 export const getUsersByEmail = async (email) => {
   try {
@@ -20,6 +20,7 @@ export const registerNewAccount = async (name, email, password) => {
     name: name,
     email: email,
     password: password,
+    red : []
   };
 
   try {
