@@ -35,7 +35,9 @@ export const registerNewAccount = async (name, email, password) => {
     name: name,
     email: email,
     password: password,
-    redBooks : []
+    redBooks : [],
+    favoriteBookIds: [],
+    role: "USER"
   };
 
   try {
