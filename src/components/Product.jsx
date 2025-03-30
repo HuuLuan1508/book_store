@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {allBooks} from "../services/BookAPI";
+import { useAllBooksStore } from "../store/BookStore";
 
 function Product() {
   const [selectedSort, setSelectedSort] = useState("Lates Addef");
   const [isOpen, setIsOpen] = useState(false);
-  const [books, setBooks] = useState([]);
+  const {books, fetchBooks} = useAllBooksStore();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSortChange = (sortOption) => {
@@ -14,10 +15,6 @@ function Product() {
   };
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      const data = await allBooks();
-      setBooks(data);
-    };
     fetchBooks();
   }, []);
 

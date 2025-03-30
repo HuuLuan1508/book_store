@@ -1,19 +1,34 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../store/UserStore";
+import { useAllBooksStore } from "../store/BookStore";
+import { updateFavoriteBooks } from "../services/BookAPI";
 
 function Favorites() {
-  const [favorites, setFavorites] = useState([]);
+  const [favoriteBooks, setFavoriteBooks] = useState([]);
   const navigate = useNavigate();
+  const {user, fetchUser} = useUserStore();
+  const {books} = useAllBooksStore();
 
   useEffect(() => {
-    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(storedFavorites);
+    refreshFavoriteBooks();
   }, []);
 
-  const deleteBook = (bookId) => {
-    const updatedBooks = favorites.filter((book) => book.id !== bookId);
-    setFavorites(updatedBooks);
-    localStorage.setItem("favorites", JSON.stringify(updatedBooks));
+  const refreshFavoriteBooks = () => {
+    const favoriteBooks = [...(user.favoriteBookIds)].map(id =>{
+      return [...books].find(book => Number(book.id) == Number(id));
+    }).filter(book => book);
+    setFavoriteBooks(favoriteBooks);
+  };
+
+  const deleteBook = async (bookId) => {
+    const updatedBooks = favoriteBooks.filter((book) => book.id !== bookId);
+    console.log(updatedBooks);
+    const updatedIds = updatedBooks.map(b => Number(b.id));
+    console.log(updatedIds);
+    await updateFavoriteBooks(user.id, updatedIds);
+    await fetchUser(user.id);
+    refreshFavoriteBooks();
   };
 
   return (
@@ -25,7 +40,7 @@ function Favorites() {
           </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {favorites.map((book) => (
+            {favoriteBooks.map((book) => (
               <div
                 className="border rounded-lg shadow-md hover:shadow-lg transition-shadow"
                 onClick={() => navigate("/viewbook", { state: { book } })}

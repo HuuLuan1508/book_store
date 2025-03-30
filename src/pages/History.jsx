@@ -1,75 +1,64 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { allBooks, updateRedChapters } from "../services/BookAPI";
-import { getUsersById } from "../services/UserAPI";
+import { updateRedChapters } from "../services/BookAPI";
+import {useUserStore} from "../store/UserStore";
+import {useAllBooksStore} from "../store/BookStore";
 
 function History() {
-  const [myBooks, setMyBooks] = useState([]);
+  const [redBooks, setRedBooks] = useState([]);
+  const {user, fetchUser} = useUserStore();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const userId = storedUser?.id || null;
+  const {books} = useAllBooksStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!storedUser) {
+    console.log(`User lấy từ store:`);
+    console.log(user);
+
+    if (!user) {
       setIsLoggedIn(false);
       return;
     }
 
     const fetchHistory = async () => {
-      try {
-        if (isLoggedIn) {
-          const user = await getUsersById(userId);
-          console.log(user);
-          if (!user) return;
-
-          const booksData = await allBooks();
-          const readBooks = user.red
-            .map((redBook) => {
-              const book = booksData.find(
-                (b) => Number(b.id) === Number(redBook.bookId)
-              );
-              return book ? { ...book, chaptersRead: redBook.chapters } : null;
-            })
-            .filter(Boolean);
-
-          setMyBooks(readBooks);
-        }
-      } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu:", error);
+      if (isLoggedIn) {
+        const redBooks = user.redBooks.map((e) => {
+          const book = [...books].find((book) => Number(book.id) == Number(e.bookId));
+          return {
+            ...book,
+            chaptersRead: e.chapters
+          };
+        });
+      
+        console.log("Danh sách sách đã đọc:", redBooks);
+        setRedBooks(redBooks);
       }
     };
 
     fetchHistory();
-  }, [userId, isLoggedIn]);
+  }, [user, isLoggedIn]);
 
   const handleDeleteHistory = async (bookId, event) => {
     event.stopPropagation();
-    if (!userId) return;
 
     try {
-      const user = await getUsersById(userId);
-      if (!user) return;
-
-      const updatedRed = user.red.filter(
+      const updatedRed = user.redBooks.filter(
         (book) => Number(book.bookId) !== Number(bookId)
       );
 
-      await updateRedChapters(userId, updatedRed);
+      await updateRedChapters(user.id, updatedRed);
 
-      // Lấy lại danh sách sách đầy đủ sau khi cập nhật
-      const booksData = await allBooks();
-      const readBooks = updatedRed
-        .map((redBook) => {
-          const book = booksData.find(
-            (b) => Number(b.id) === Number(redBook.bookId)
-          );
-          return book ? { ...book, chaptersRead: redBook.chapters } : null;
-        })
-        .filter(Boolean);
+      await fetchUser(user.id);
 
-      setMyBooks(readBooks);
+      const redBooks = user.redBooks.map((e) => {
+        const book = [...books].find((book) => Number(book.id) == Number(e.bookId));
+        return {
+          ...book,
+          chaptersRead: e.chapters
+        };
+      });
+
+      setRedBooks(redBooks);
     } catch (error) {
       console.error("Lỗi khi xóa lịch sử đọc:", error);
     }
@@ -92,8 +81,8 @@ function History() {
               </div>
 
               <div className="space-y-4">
-                {myBooks.length > 0 ? (
-                  myBooks.map((book) => (
+                {redBooks.length > 0 ? (
+                  redBooks.map((book) => (
                     <div
                       key={book.id}
                       className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"

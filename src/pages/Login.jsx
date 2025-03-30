@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUsersByEmail } from "../services/UserAPI";
+import {useUserStore} from "../store/UserStore";
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const {user, fetchUser} = useUserStore();
 
   const validateForm = () => {
     var validateEmail = "";
@@ -59,6 +61,8 @@ function Login() {
           name: users[0].name,
           red: users[0].red
         }));
+
+        if (!user) fetchUser(users[0].id);
 
         alert("Đăng nhập thành công!");
         navigate("/");

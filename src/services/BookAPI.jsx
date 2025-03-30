@@ -1,11 +1,12 @@
 import {usersAPI} from "../services/UserAPI";
 
-const getAllBooksAPI = 'http://localhost:3000/books'
+const booksAPI = 'http://localhost:3000/books';
 const updateRedChapterAPI = `${usersAPI}/`;
+const updateFavoriteBooksAPI = `${usersAPI}/`;
 
 export const allBooks = async () => {
   try {
-    const response = await fetch(getAllBooksAPI)
+    const response = await fetch(booksAPI);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -22,12 +23,27 @@ export const updateRedChapters = async (userId, redChapters) => {
     const response = await fetch(`${updateRedChapterAPI}${userId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({red: redChapters}),
+      body: JSON.stringify({redBooks: redChapters}),
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const updateFavoriteBooks = async (userId, favoriteBookIds) => {
+  try {
+    const response = await fetch(`${updateFavoriteBooksAPI}${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({favoriteBookIds: favoriteBookIds}),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
