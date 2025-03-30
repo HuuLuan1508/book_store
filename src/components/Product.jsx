@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {allBooks} from "../services/BookAPI";
+import { allBooks } from "../services/BookAPI";
 import { useAllBooksStore } from "../store/BookStore";
 
 function Product() {
   const [selectedSort, setSelectedSort] = useState("Lates Addef");
   const [isOpen, setIsOpen] = useState(false);
-  const {books, fetchBooks} = useAllBooksStore();
+  const { books, fetchBooks } = useAllBooksStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 8;
@@ -16,8 +16,18 @@ function Product() {
   }, []);
 
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-    setCurrentPage(1); // Reset về trang đầu khi tìm kiếm
+    let value = event.target.value;
+
+    // Loại bỏ khoảng trắng đầu dòng
+    value = value.replace(/^\s+/, "");
+
+    // Chỉ cho phép chữ cái, số và dấu tiếng Việt
+    const regex = /^[a-zA-Z0-9\u00C0-\u1EF9\s]*$/;
+
+    if (regex.test(value)) {
+      setSearchTerm(value);
+      setCurrentPage(1); // Reset về trang đầu khi tìm kiếm
+    }
   };
 
   const filteredBooks = books.filter((book) =>
@@ -217,28 +227,34 @@ function Product() {
           </div>
         </div>{" "}
         <div className="grid grid-cols-12 h-auto justify-center gap-2 mt-5">
-          {currentBooks.map((book, index) => (
-            <div
-              key={index}
-              className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3"
-            >
-              <li className="h-auto w-auto border dark:border-gray-700 shadow-lg rounded-[5px] hover:scale-105 transition-transform duration-300 ease-in-out dark:bg-gray-800">
-                <Link to="/viewbook" state={{ book: book }}>
-                  <img
-                    className="w-[280px] object-cover h-[430px] rounded-tl-[5px] rounded-tr-[5px]"
-                    src={book.image}
-                    alt={book.title}
-                  />
-                  <p className="mt-3 text-center dark:text-white">
-                    {book.title}
-                  </p>
-                  <p className="mt-1 text-center dark:text-white">
-                    by {book.author}
-                  </p>
-                </Link>
-              </li>
-            </div>
-          ))}
+          {currentBooks.length > 0 ? (
+            currentBooks.map((book, index) => (
+              <div
+                key={index}
+                className="col-span-12 md:col-span-6 lg:col-span-3 flex justify-center mt-3"
+              >
+                <li className="list-none h-auto w-auto border dark:border-gray-700 shadow-lg rounded-[5px] hover:scale-105 transition-transform duration-300 ease-in-out dark:bg-gray-800">
+                  <Link to="/viewbook" state={{ book: book }}>
+                    <img
+                      className="w-[280px] object-cover h-[430px] rounded-tl-[5px] rounded-tr-[5px]"
+                      src={book.image}
+                      alt={book.title}
+                    />
+                    <p className="mt-3 text-center dark:text-white">
+                      {book.title}
+                    </p>
+                    <p className="mt-1 text-center dark:text-white">
+                      by {book.author}
+                    </p>
+                  </Link>
+                </li>
+              </div>
+            ))
+          ) : (
+            <p className="col-span-12 text-center text-gray-600 dark:text-white text-lg">
+              Không có sản phẩm nào phù hợp
+            </p>
+          )}
         </div>
         <div className="flex items-center space-x-2 justify-center mt-5 mb-5">
           <button
