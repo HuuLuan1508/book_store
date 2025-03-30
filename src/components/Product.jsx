@@ -8,11 +8,8 @@ function Product() {
   const [isOpen, setIsOpen] = useState(false);
   const {books, fetchBooks} = useAllBooksStore();
   const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSortChange = (sortOption) => {
-    setSelectedSort(sortOption);
-    setIsOpen(false);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 8;
 
   useEffect(() => {
     fetchBooks();
@@ -20,10 +17,21 @@ function Product() {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1); // Reset về trang đầu khi tìm kiếm
   };
+
   const filteredBooks = books.filter((book) =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="bg-[#F2F7FD] dark:bg-gray-900 grid grid-cols-1 w-full h-full relative z-[1]">
@@ -209,7 +217,7 @@ function Product() {
           </div>
         </div>{" "}
         <div className="grid grid-cols-12 h-auto justify-center gap-2 mt-5">
-          {filteredBooks.map((book, index) => (
+          {currentBooks.map((book, index) => (
             <div
               key={index}
               className="col-span-12 md:col-span-6 lg:col-span-3 list-none flex justify-center mt-3"
@@ -233,21 +241,31 @@ function Product() {
           ))}
         </div>
         <div className="flex items-center space-x-2 justify-center mt-5 mb-5">
-          <button className="w-10 h-10 flex items-center justify-center border dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="w-10 h-10 flex items-center justify-center border dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
             ❮
           </button>
-
-          <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-blue-500 text-white shadow-md">
-            1
-          </button>
-          <button className="w-10 h-10 flex items-center justify-center border dark:border-gray-700 rounded-lg text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-            2
-          </button>
-          <button className="w-10 h-10 flex items-center justify-center border dark:border-gray-700 rounded-lg text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-            3
-          </button>
-
-          <button className="w-10 h-10 flex items-center justify-center border dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`w-10 h-10 flex items-center justify-center rounded-lg ${
+                currentPage === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "border dark:border-gray-700 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="w-10 h-10 flex items-center justify-center border dark:border-gray-700 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
             ❯
           </button>
         </div>
