@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {allBooks, updateRedChapters} from "../services/BookAPI";
+import { allBooks, updateRedChapters } from "../services/BookAPI";
 import { getUsersById } from "../services/UserAPI";
 
 function History() {
@@ -21,12 +21,15 @@ function History() {
       try {
         if (isLoggedIn) {
           const user = await getUsersById(userId);
+          console.log(user);
           if (!user) return;
 
           const booksData = await allBooks();
           const readBooks = user.red
             .map((redBook) => {
-              const book = booksData.find((b) => Number(b.id) === redBook.bookId);
+              const book = booksData.find(
+                (b) => Number(b.id) === Number(redBook.bookId)
+              );
               return book ? { ...book, chaptersRead: redBook.chapters } : null;
             })
             .filter(Boolean);
@@ -49,13 +52,24 @@ function History() {
       const user = await getUsersById(userId);
       if (!user) return;
 
-      const updatedRed = user.red.filter((book) => Number(book.bookId) !== Number(bookId));
-
-      console.log(updatedRed);
+      const updatedRed = user.red.filter(
+        (book) => Number(book.bookId) !== Number(bookId)
+      );
 
       await updateRedChapters(userId, updatedRed);
 
-      setMyBooks(updatedRed);
+      // Lấy lại danh sách sách đầy đủ sau khi cập nhật
+      const booksData = await allBooks();
+      const readBooks = updatedRed
+        .map((redBook) => {
+          const book = booksData.find(
+            (b) => Number(b.id) === Number(redBook.bookId)
+          );
+          return book ? { ...book, chaptersRead: redBook.chapters } : null;
+        })
+        .filter(Boolean);
+
+      setMyBooks(readBooks);
     } catch (error) {
       console.error("Lỗi khi xóa lịch sử đọc:", error);
     }
@@ -72,7 +86,9 @@ function History() {
           {isLoggedIn ? (
             <>
               <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold dark:text-white">History Read</h1>
+                <h1 className="text-3xl font-bold dark:text-white">
+                  History Read
+                </h1>
               </div>
 
               <div className="space-y-4">
@@ -84,10 +100,18 @@ function History() {
                       onClick={() => navigate("/viewbook", { state: { book } })}
                     >
                       <div className="flex items-center space-x-4">
-                        <img className="w-20 h-20 object-cover rounded" src={book.image} alt={book.title} />
+                        <img
+                          className="w-20 h-20 object-cover rounded"
+                          src={book.image}
+                          alt={book.title}
+                        />
                         <div>
-                          <h3 className="font-semibold dark:text-white">{book.title}</h3>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">Đọc tiếp Chapter {book.chaptersRead.length}</p>
+                          <h3 className="font-semibold dark:text-white">
+                            {book.title}
+                          </h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            Đọc tiếp Chapter {Math.max(...book.chaptersRead)}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-4">
@@ -101,14 +125,20 @@ function History() {
                     </div>
                   ))
                 ) : (
-                  <p className="text-gray-500 dark:text-gray-400">Bạn chưa đọc truyện nào.</p>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    Bạn chưa đọc truyện nào.
+                  </p>
                 )}
               </div>
             </>
           ) : (
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-700 dark:text-white">Bạn chưa đăng nhập!</h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-2">Vui lòng đăng nhập để xem lịch sử đọc truyện của bạn.</p>
+              <h2 className="text-2xl font-bold text-gray-700 dark:text-white">
+                Bạn chưa đăng nhập!
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400 mt-2">
+                Vui lòng đăng nhập để xem lịch sử đọc truyện của bạn.
+              </p>
               <button
                 onClick={handleLoginRedirect}
                 className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600"
