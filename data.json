@@ -278,7 +278,7 @@
       "publishedDate": "24/05/2018",
       "chapters": [
         {
-          "id":1,
+          "id": 1,
           "title": "Chapter 1",
           "publishedDate": "20/05/2018",
           "contents": [
@@ -305,7 +305,7 @@
           ]
         },
         {
-          "id":2,
+          "id": 2,
           "title": "Chapter 2",
           "publishedDate": "21/05/2018",
           "contents": [
@@ -332,7 +332,7 @@
           ]
         },
         {
-          "id":3,
+          "id": 3,
           "title": "Chapter 3",
           "publishedDate": "22/05/2018",
           "contents": [
@@ -358,7 +358,7 @@
           ]
         },
         {
-          "id":4,
+          "id": 4,
           "title": "Chapter 4",
           "publishedDate": "23/05/2018",
           "contents": [
@@ -376,7 +376,7 @@
           ]
         },
         {
-          "id":5,
+          "id": 5,
           "title": "Chapter 5",
           "publishedDate": "24/05/2018",
           "contents": [
@@ -620,7 +620,7 @@
       "publishedDate": "05/12/2023",
       "chapters": [
         {
-          "id":1,
+          "id": 1,
           "title": "Chapter 1",
           "publishedDate": "01/12/2023",
           "contents": [
@@ -638,7 +638,7 @@
           ]
         },
         {
-          "id":2,
+          "id": 2,
           "title": "Chapter 2",
           "publishedDate": "02/12/2023",
           "contents": [
@@ -663,7 +663,7 @@
           ]
         },
         {
-          "id":3,
+          "id": 3,
           "title": "Chapter 3",
           "publishedDate": "03/03/2024",
           "contents": [
@@ -681,7 +681,7 @@
           ]
         },
         {
-          "id":4,
+          "id": 4,
           "title": "Chapter 4",
           "publishedDate": "04/03/2024",
           "contents": [
@@ -719,7 +719,7 @@
           ]
         },
         {
-          "id":5,
+          "id": 5,
           "title": "Chapter 5",
           "publishedDate": "05/03/2024",
           "contents": [
@@ -1882,27 +1882,31 @@
   ],
   "users": [
     {
+      "id": "0000000000000",
+      "name": "Loc",
+      "email": "loc@gmail.com",
+      "password": "111111",
+      "role": "ADMIN"
+    },
+    {
       "id": "1741693433353",
       "name": "Luan14",
       "email": "Luan@gmail.com",
       "password": "222222",
-      "red": [
-        {
-          "bookId": "2",
-          "chapters": [
-            1
-          ]
-        },
+      "favoriteBookIds": [
+        1
+      ],
+      "redBooks": [
         {
           "bookId": "1",
           "chapters": [
-            2
+            2,
+            3,
+            4
           ]
         }
       ],
-      "favoriteBookIds": [
-        1
-      ]
+      "role": "USER"
     }
   ]
 }

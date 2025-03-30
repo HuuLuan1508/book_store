@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {useUserStore} from "../store/UserStore";
 
-function Header() {
+function AdminHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const navigate = useNavigate();
@@ -27,6 +27,12 @@ function Header() {
     }
   }, []);
 
+  useEffect(() => {
+    if (user === null) {
+      navigate('/'); // Khi logout, tự động về trang chủ
+    }
+  }, [user]);
+
   // Style cho menu item khi active
   const activeStyle = "text-blue-600 font-medium";
   const normalStyle = "text-gray-700";
@@ -34,7 +40,6 @@ function Header() {
   const handleLogout = () => {
     localStorage.removeItem('user');
     setUser(null);
-    navigate('/');
   };
 
   return (
@@ -76,7 +81,7 @@ function Header() {
         </button>
 
         {/* Menu Items */}
-        <div
+        {/* <div
           className={`lg:flex gap-[50px] justify-center bg-white dark:bg-gray-800 ${
             isOpen ? "block" : "hidden"
           } fixed lg:static top-[72px] right-0 left-0 shadow-md lg:shadow-none p-4 lg:p-0 w-full lg:w-auto`}
@@ -145,7 +150,7 @@ function Header() {
             </svg>
             Favorites
           </NavLink>
-        </div>
+        </div> */}
 
         {/* Action Buttons */}
         <div className="lg:flex gap-5 items-center hidden">
@@ -216,4 +221,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default AdminHeader;
