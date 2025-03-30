@@ -11,7 +11,11 @@ function Favorites() {
   const {books} = useAllBooksStore();
 
   useEffect(() => {
-    refreshFavoriteBooks();
+    if (!user){
+      navigate('/login');
+    }else{
+      refreshFavoriteBooks();
+    }
   }, []);
 
   const refreshFavoriteBooks = () => {

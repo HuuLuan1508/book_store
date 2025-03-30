@@ -1821,6 +1821,14 @@
         }
       ],
       "role": "USER"
+    },
+    {
+      "id": 1743376831988,
+      "name": "teddy",
+      "email": "teddy123@gmail.com",
+      "password": "123456",
+      "favoriteBookIds": [],
+      "redBooks": []
     }
   ]
 }
