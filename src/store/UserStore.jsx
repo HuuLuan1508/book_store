@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { getUsersById } from "../services/UserAPI";
+import { allUsers, getUsersById } from "../services/UserAPI";
 
 export const useUserStore = create(
   persist(
@@ -17,6 +17,22 @@ export const useUserStore = create(
     }),
     {
       name: "user",
+    }
+  )
+);
+
+export const useAllUsersStore = create(
+  persist(
+    (set) => ({
+      users: [],
+      fetchAllUsers: async () => {
+        const data = await allUsers();
+        console.log(data);
+        set({ users: data });
+      },
+    }),
+    {
+      name: "all-user",
     }
   )
 );

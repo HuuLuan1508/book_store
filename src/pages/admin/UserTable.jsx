@@ -1,15 +1,28 @@
-import { useState } from "react";
-
-const sampleUsers = [
-  { id: 1, name: "Admin", email: "admin@example.com" },
-  { id: 2, name: "User123", email: "user123@example.com" },
-];
+import { useEffect, useState } from "react";
+import { useAllUsersStore } from "../../store/UserStore";
+import { deleteUserById } from "../../services/UserAPI";
 
 function UserTable() {
-  const [users, setUsers] = useState(sampleUsers);
+  const { users, fetchAllUsers } = useAllUsersStore();
 
-  const handleDelete = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+  useEffect(() => {
+    fetchData();
+    console.log(users);
+  }, []);
+
+  const fetchData = async () => {
+    if (!users || users.length == 0) {
+      await fetchAllUsers();
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteUserById(id);
+      await fetchAllUsers();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   return (
@@ -21,6 +34,7 @@ function UserTable() {
             <th className="border p-2">ID</th>
             <th className="border p-2">Tên</th>
             <th className="border p-2">Email</th>
+            <th className="border p-2">Vai trò</th>
             <th className="border p-2">Hành động</th>
           </tr>
         </thead>
@@ -30,8 +44,16 @@ function UserTable() {
               <td className="border p-2">{user.id}</td>
               <td className="border p-2">{user.name}</td>
               <td className="border p-2">{user.email}</td>
+              <td className="border p-2">{user.role}</td>
               <td className="border p-2">
-                <button onClick={() => handleDelete(user.id)} className="text-red-500">Xóa</button>
+                {user.role === "USER" && (
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    className="text-red-500"
+                  >
+                    Xóa
+                  </button>
+                )}
               </td>
             </tr>
           ))}

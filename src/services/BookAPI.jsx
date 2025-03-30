@@ -3,6 +3,7 @@ import {usersAPI} from "../services/UserAPI";
 const booksAPI = 'http://localhost:3000/books';
 const updateRedChapterAPI = `${usersAPI}/`;
 const updateFavoriteBooksAPI = `${usersAPI}/`;
+const deleteBookByIdAPI = `${booksAPI}/`;
 
 export const allBooks = async () => {
   try {
@@ -46,6 +47,21 @@ export const updateFavoriteBooks = async (userId, favoriteBookIds) => {
     }
   } catch (error) {
     console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const deleteBookById = async (id) => {
+  try {
+    const response = await fetch(`${deleteBookByIdAPI}${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete book");
+    }
+  } catch (error) {
+    console.error("Error deleting book:", error);
     throw error;
   }
 };

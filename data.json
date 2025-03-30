@@ -1894,7 +1894,49 @@
       "email": "Luan@gmail.com",
       "password": "222222",
       "favoriteBookIds": [
+        1,
+        2
+      ],
+      "redBooks": [
+        {
+          "bookId": "1",
+          "chapters": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "role": "USER"
+    },
+    {
+      "id": "1741693433354",
+      "name": "Loc",
+      "email": "loc@gmail.com",
+      "password": "222222",
+      "favoriteBookIds": [
         1
+      ],
+      "redBooks": [
+        {
+          "bookId": "1",
+          "chapters": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "role": "USER"
+    },
+    {
+      "id": "1741693433355",
+      "name": "Tinh",
+      "email": "tinh@gmail.com",
+      "password": "222222",
+      "favoriteBookIds": [
+        1,
+        2
       ],
       "redBooks": [
         {

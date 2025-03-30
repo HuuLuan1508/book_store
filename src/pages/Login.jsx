@@ -40,41 +40,29 @@ function Login() {
     const isValid = validateForm();
     try {
       if (isValid) {
-        if (
-          email == "loc@gmail.com" &&
-          password == "111111"
-        ) {
-          
-          setUser({
-            "id": "0000000000000",
-            "name": "Loc",
-            "email": "loc@gmail.com",
-            "password": "111111",
-            "role": "ADMIN"
-          });
-          
-          navigate("/management");
+        const users = await getUsersByEmail(email);
 
-        } else {
-          const users = await getUsersByEmail(email);
-
-          if (users.length == 0) {
-            setErrors({ email: "Tài khoản không tồn tại!", password: "" });
-            return;
-          }
-
-          if (users.length == 1) {
-            if (users[0].password !== password) {
-              setErrors({ email: "", password: "Mật khẩu không chính xác!" });
-              return;
-            }
-          }
-
-          if (!user) await fetchUser(users[0].id);
-
-          alert("Đăng nhập thành công!");
-          navigate("/");
+        if (!users || users.length === 0) {
+          setErrors({ email: "Tài khoản không tồn tại!", password: "" });
+          return;
         }
+    
+        const loggedInUser = users[0];
+    
+        if (loggedInUser.password !== password) {
+          setErrors({ email: "", password: "Mật khẩu không chính xác!" });
+          return;
+        }
+    
+        setUser(loggedInUser); // Cập nhật thông tin người dùng vào Zustand
+    
+        if (loggedInUser.role === "ADMIN") {
+          navigate("/management"); // Nếu là ADMIN, chuyển hướng tới trang quản lý
+        } else {
+          navigate("/"); // Nếu là user thường, chuyển hướng về trang chủ
+        }
+    
+        alert("Đăng nhập thành công!");
       }
     } catch (error) {
       console.error(error);
