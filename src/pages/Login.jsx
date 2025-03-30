@@ -8,11 +8,12 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const [successMessage, setSuccessMessage] = useState("");
   const { user, setUser, fetchUser } = useUserStore();
 
   const validateForm = () => {
-    var validateEmail = "";
-    var validatePassword = "";
+    let validateEmail = "";
+    let validatePassword = "";
 
     if (!email) {
       validateEmail = "Vui lòng nhập email!";
@@ -28,16 +29,17 @@ function Login() {
 
     setErrors({ email: validateEmail, password: validatePassword });
 
-    if (!validateEmail && !validatePassword) {
-      return true;
-    }
-
-    return false;
+    return !validateEmail && !validatePassword;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({ email: "", password: "" });
+    setSuccessMessage("");
+
     const isValid = validateForm();
+    if (!isValid) return;
+
     try {
       if (isValid) {
         const users = await getUsersByEmail(email);
@@ -75,6 +77,11 @@ function Login() {
         <h2 className="text-2xl font-bold text-center text-gray-700 dark:text-white mb-4">
           Đăng Nhập
         </h2>
+        {successMessage && (
+          <p className="text-green-500 text-center font-semibold mb-4">
+            {successMessage}
+          </p>
+        )}
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-4">
             <label className="block text-gray-700 dark:text-white text-sm font-bold mb-2">
@@ -87,10 +94,7 @@ function Login() {
               }`}
               placeholder="Nhập email"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (errors.email) setErrors({ ...errors, email: "" });
-              }}
+              onChange={(e) => setEmail(e.target.value)}
             />
             {errors.email && (
               <p className="text-red-500 text-xs mt-1">{errors.email}</p>
@@ -107,22 +111,11 @@ function Login() {
               }`}
               placeholder="Nhập mật khẩu"
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                if (errors.password) setErrors({ ...errors, password: "" });
-              }}
+              onChange={(e) => setPassword(e.target.value)}
             />
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">{errors.password}</p>
             )}
-          </div>
-          <div className="mb-4 text-right">
-            <a
-              href="#"
-              className="text-sm text-blue-500 dark:text-blue-400 hover:underline"
-            >
-              Quên mật khẩu?
-            </a>
           </div>
           <button
             type="submit"
@@ -130,17 +123,6 @@ function Login() {
           >
             Đăng Nhập
           </button>
-          <div className="mt-4 text-center">
-            <span className="text-gray-600 dark:text-gray-300">
-              Chưa có tài khoản?{" "}
-            </span>
-            <a
-              href="/register"
-              className="text-blue-500 dark:text-blue-400 hover:underline font-medium"
-            >
-              Đăng ký ngay
-            </a>
-          </div>
         </form>
       </div>
     </div>
