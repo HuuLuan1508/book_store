@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getUsersByEmail } from "../services/UserAPI";
 import { useUserStore } from "../store/UserStore";
 
@@ -41,30 +41,27 @@ function Login() {
     if (!isValid) return;
 
     try {
-      if (isValid) {
-        const users = await getUsersByEmail(email);
+      const users = await getUsersByEmail(email);
 
-        if (!users || users.length === 0) {
-          setErrors({ email: "Tài khoản không tồn tại!", password: "" });
-          return;
-        }
-    
-        const loggedInUser = users[0];
-    
-        if (loggedInUser.password !== password) {
-          setErrors({ email: "", password: "Mật khẩu không chính xác!" });
-          return;
-        }
-    
-        setUser(loggedInUser); // Cập nhật thông tin người dùng vào Zustand
-    
-        if (loggedInUser.role === "ADMIN") {
-          navigate("/management"); // Nếu là ADMIN, chuyển hướng tới trang quản lý
-        } else {
-          navigate("/"); // Nếu là user thường, chuyển hướng về trang chủ
-        }
-    
-        alert("Đăng nhập thành công!");
+      if (!users || users.length === 0) {
+        setErrors({ email: "Tài khoản không tồn tại!", password: "" });
+        return;
+      }
+
+      const loggedInUser = users[0];
+
+      if (loggedInUser.password !== password) {
+        setErrors({ email: "", password: "Mật khẩu không chính xác!" });
+        return;
+      }
+
+      setUser(loggedInUser); // Cập nhật thông tin người dùng vào Zustand
+      setSuccessMessage("Đăng nhập thành công!");
+
+      if (loggedInUser.role === "ADMIN") {
+        navigate("/management"); // Nếu là ADMIN, chuyển hướng tới trang quản lý
+      } else {
+        navigate("/"); // Nếu là user thường, chuyển hướng về trang chủ
       }
     } catch (error) {
       console.error(error);
@@ -123,6 +120,17 @@ function Login() {
           >
             Đăng Nhập
           </button>
+          <div className="mt-6 text-center">
+            <span className="text-gray-600 dark:text-gray-300">
+              Chưa có tài khoản?{" "}
+            </span>
+            <Link
+              to="/register"
+              className="text-blue-500 dark:text-blue-400 hover:underline"
+            >
+              Đăng ký
+            </Link>
+          </div>
         </form>
       </div>
     </div>
