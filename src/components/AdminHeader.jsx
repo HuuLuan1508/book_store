@@ -27,19 +27,14 @@ function AdminHeader() {
     }
   }, []);
 
-  useEffect(() => {
-    if (user === null) {
-      navigate('/'); // Khi logout, tự động về trang chủ
-    }
-  }, [user]);
-
   // Style cho menu item khi active
   const activeStyle = "text-blue-600 font-medium";
   const normalStyle = "text-gray-700";
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem('user');
-    setUser(null);
+    await setUser(null);
+    navigate('/');
   };
 
   return (

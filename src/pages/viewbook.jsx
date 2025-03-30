@@ -13,8 +13,8 @@ function ViewBook() {
   const { user, fetchUser } = useUserStore();
 
   useEffect(() => {
-    if (!book) {
-      navigate("/");
+    if (!user || !book) {
+      navigate("/login");
     } else {
       setFavoriteState();
 

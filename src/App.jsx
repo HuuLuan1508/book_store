@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div>
-      {user?.role == "ADMIN" ? <AdminHeader /> : <Header />}
+      {!user || user?.role == "ADMIN" ? <AdminHeader /> : <Header />}
       <Routes>
         <Route path="/" element={<Product />} />
         <Route path="/viewbook" element={<ViewBook />} />
