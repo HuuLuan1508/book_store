@@ -6,7 +6,7 @@ This is a website supports user explore and read many type of books. User can lo
     + Login / Register account.
     + Read each chapter of many types of books.
     + Set books which user like to favorite.
-    + Search and filter books.
+    + Search books by keyword.
     + Watch history of books which they have red before.
 
 - Environment and technical used to build this website:
@@ -18,10 +18,11 @@ This is a website supports user explore and read many type of books. User can lo
     + Backend: Tool of NPM
         * JSON Server - Create basic REST API by json file.
         * Concurrently - Use to combine "npm run dev" and run JSON Server to one command "npm run dev"
+        * Zustand - A state management tool to help reduce unnecessary call API.
 
 - How to run website:
     + Step 1: Install npm.
-    + Step 2: Instal relative tools: React, JSON Server, Concurrently (npm install <tool_name>).
+    + Step 2: Instal relative tools: React, JSON Server, Concurrently, Zustand (npm install <tool_name>).
     + Step 3: Edit "script" field in "package.json":
          "scripts": {
             "dev": "concurrently --success first \"json-server --watch data.json --port 3000\" \"vite dev\"",

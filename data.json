@@ -1755,7 +1755,14 @@
           "chapters": [
             2,
             3,
-            4
+            4,
+            1
+          ]
+        },
+        {
+          "bookId": "2",
+          "chapters": [
+            2
           ]
         }
       ],
@@ -1823,7 +1830,7 @@
       "role": "USER"
     },
     {
-      "id": 1743376831988,
+      "id": "1743376831988",
       "name": "teddy",
       "email": "teddy123@gmail.com",
       "password": "123456",
