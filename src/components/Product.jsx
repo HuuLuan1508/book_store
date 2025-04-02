@@ -8,7 +8,7 @@ function Product() {
   const [isOpen, setIsOpen] = useState(false);
   const { books, fetchBooks } = useAllBooksStore();
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); 
   const booksPerPage = 8;
 
   useEffect(() => {
