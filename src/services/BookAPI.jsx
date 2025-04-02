@@ -3,7 +3,6 @@ import {usersAPI} from "../services/UserAPI";
 const booksAPI = 'http://localhost:3000/books';
 const updateRedChapterAPI = `${usersAPI}/`;
 const updateFavoriteBooksAPI = `${usersAPI}/`;
-const deleteBookByIdAPI = `${booksAPI}/`;
 
 export const allBooks = async () => {
   try {
@@ -30,7 +29,7 @@ export const updateRedChapters = async (userId, redChapters) => {
       throw new Error("Network response was not ok");
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error updating red chapters:", error);
     throw error;
   }
 };
@@ -46,22 +45,36 @@ export const updateFavoriteBooks = async (userId, favoriteBookIds) => {
       throw new Error("Network response was not ok");
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error updating favorite books:", error);
     throw error;
   }
 };
 
 export const deleteBookById = async (id) => {
   try {
-    const response = await fetch(`${deleteBookByIdAPI}${id}`, {
-      method: "DELETE",
+    // Kiểm tra xem truyện có tồn tại không
+    const checkResponse = await fetch(`${booksAPI}/${id}`);
+    const book = await checkResponse.json();
+    
+    if (!book) {
+      throw new Error("Truyện không tồn tại");
+    }
+
+    // Thực hiện xóa truyện
+    const response = await fetch(`${booksAPI}/${id}`, {
+      method: "DELETE"
     });
 
     if (!response.ok) {
-      throw new Error("Failed to delete book");
+      throw new Error("Không thể xóa truyện. Vui lòng thử lại sau.");
     }
+
+    return true;
   } catch (error) {
+    if (error.message === "Truyện không tồn tại") {
+      throw error;
+    }
     console.error("Error deleting book:", error);
-    throw error;
+    throw new Error("Không thể xóa truyện. Vui lòng thử lại sau.");
   }
 };
