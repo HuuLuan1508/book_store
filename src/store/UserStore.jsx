@@ -7,7 +7,6 @@ export const useUserStore = create(
     (set) => ({
       user: null,
       setUser: async (admin) => {
-        console.log("Updating user:", admin);
         set({ user: admin });
       },
       fetchUser: async (id) => {
